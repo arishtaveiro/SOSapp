@@ -12,6 +12,8 @@
     tools:context="com.example.arisht.impgpslocation.MainActivity">
 
 
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -143,6 +145,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/loc" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="POLICE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/police"
+            android:onClick="police"/>
+        <Button
+            android:text="AMBULANCE"
+            android:onClick="ambulance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ambulance" />
+        <Button
+            android:text="FIRE DEPARTMENT"
+            android:onClick="fire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fire" />
+
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

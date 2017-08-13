@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -34,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView loc;
     private LocationManager locationManager;
     private LocationListener listener;
-    String lat="", lng="";
+    String lat = "", lng = "";
     int ti = 0;
 
     EditText phn1, phn2, phn3;
 
     SQLiteDatabase db;
-
+    int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
     int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     String SENT = "SMS_SENT";
     String DELIVERED = "SMS_DELIVERED";
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
                 loc.setText("\n " + location.getLongitude() + "   " + location.getLatitude());
-           //   Toast.makeText(MainActivity.this, "location change", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(MainActivity.this, "location change", Toast.LENGTH_SHORT).show();
                 lng = String.valueOf(location.getLongitude());
                 lat = String.valueOf(location.getLatitude());
 
@@ -477,11 +478,9 @@ public class MainActivity extends AppCompatActivity {
                 //noinspection MissingPermission
 
 
-
                 locationManager.requestLocationUpdates("gps", 100, 0, listener);
                 Toast.makeText(MainActivity.this, "Waiting", Toast.LENGTH_SHORT).show();
                 ti = 0;
-
 
 
                 loc.append("\n " + lng + "   " + lat);
@@ -496,7 +495,7 @@ public class MainActivity extends AppCompatActivity {
     public void send(String lat, String lng) {
 
         if (ti == 1) {
-   //       Toast.makeText(MainActivity.this, "inside function", Toast.LENGTH_SHORT).show();
+            //       Toast.makeText(MainActivity.this, "inside function", Toast.LENGTH_SHORT).show();
 
 
             //database
@@ -582,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
                     SmsManager sms = SmsManager.getDefault();
                     sms.sendTextMessage(tel1, null, message, sentPI, deliveredPI);
 
-        //          Toast.makeText(MainActivity.this, "sending ." + lat, Toast.LENGTH_SHORT).show();
+                    //          Toast.makeText(MainActivity.this, "sending ." + lat, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -600,7 +599,7 @@ public class MainActivity extends AppCompatActivity {
                     sms.sendTextMessage(tel2, null, message, sentPI, deliveredPI);
 
 
-            //      Toast.makeText(MainActivity.this, "sending 2..." + lng, Toast.LENGTH_SHORT).show();
+                    //      Toast.makeText(MainActivity.this, "sending 2..." + lng, Toast.LENGTH_SHORT).show();
 
                 }
             } catch (Exception e) {
@@ -619,22 +618,59 @@ public class MainActivity extends AppCompatActivity {
                     sms.sendTextMessage(tel3, null, message, sentPI, deliveredPI);
 
 
-             //     Toast.makeText(MainActivity.this, "sending 3..." + lat, Toast.LENGTH_SHORT).show();
+                    //     Toast.makeText(MainActivity.this, "sending 3..." + lat, Toast.LENGTH_SHORT).show();
 
                 }
             } catch (Exception e) {
                 Toast.makeText(MainActivity.this, "UNABLE TO SEND MESSAGE TO " + tel3, Toast.LENGTH_SHORT).show();
             }
 
-        //  Toast.makeText(MainActivity.this, "exiting function", Toast.LENGTH_SHORT).show();
-        }
-
-        else{
-     //     Toast.makeText(MainActivity.this, "no need to run this", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(MainActivity.this, "exiting function", Toast.LENGTH_SHORT).show();
+        } else {
+            //     Toast.makeText(MainActivity.this, "no need to run this", Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    public void police(View v) {
 
 
+
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
+                    MY_PERMISSIONS_REQUEST_CALL_PHONE);
+return;}
+        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:100"));
+startActivity(callIntent);}
+}
+
+    public void ambulance(View v){
+
+
+
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
+                    MY_PERMISSIONS_REQUEST_CALL_PHONE);
+            return;}
+        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:102"));
+            startActivity(callIntent);}
+    }
+
+    public void fire(View v){
+
+
+
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
+                    MY_PERMISSIONS_REQUEST_CALL_PHONE);
+            return;}
+        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:101"));
+            startActivity(callIntent);}
+    }
 }
