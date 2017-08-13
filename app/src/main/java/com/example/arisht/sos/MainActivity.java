@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                loc.append("\n " + location.getLongitude() + "   " + location.getLatitude());
+                loc.setText("\n " + location.getLongitude() + "   " + location.getLatitude());
            //   Toast.makeText(MainActivity.this, "location change", Toast.LENGTH_SHORT).show();
                 lng = String.valueOf(location.getLongitude());
                 lat = String.valueOf(location.getLatitude());
