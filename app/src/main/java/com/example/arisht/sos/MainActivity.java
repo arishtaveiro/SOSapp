@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             data2a += Integer.toString(temp2a);
 
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "PLEASE STORE A EMERGENCY NUMBER IN 1st FIELDs", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "PLEASE STORE A EMERGENCY NUMBER IN 1st FIELDss", Toast.LENGTH_SHORT).show();
         }
 
 
