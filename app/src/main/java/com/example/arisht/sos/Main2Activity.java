@@ -16,7 +16,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,22 +23,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity {
 
-    private ImageView send;
-    private ImageView contacts;
-    private ImageView cancel;
+    private Button send,fin;
     private TextView loc;
     private LocationManager locationManager;
     private LocationListener listener;
@@ -59,22 +51,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
 
-        send = (ImageView) findViewById(R.id.send);
-        contacts = (ImageView) findViewById(R.id.cont) ;
+        phn1 = (EditText) findViewById(R.id.phn1);
+        phn2 = (EditText) findViewById(R.id.phn2);
+        phn3 = (EditText) findViewById(R.id.phn3);
+        fin = (Button) findViewById(R.id.fin);
 
-        contacts.setOnClickListener(new View.OnClickListener() {
+        fin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                Intent intent = new Intent(Main2Activity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+
+        //send = (Button) findViewById(R.id.send);
 
 
         //databse and tables
@@ -86,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
         //populating edittext with stored number
         //for 1st number
-        /*
         Cursor c1;
         int temp1a, temp2a;
         String data1a, data2a;
@@ -104,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
             data2a += Integer.toString(temp2a);
 
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "PLEASE STORE A EMERGENCY NUMBER IN 1st FIELD", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "PLEASE STORE A EMERGENCY NUMBER IN 1st FIELD", Toast.LENGTH_SHORT).show();
         }
 
 
         if (data1a != null && data2a != null) {
             phn1.setText(data1a + data2a);
         } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
 
         //for 2nd number
@@ -131,14 +126,14 @@ public class MainActivity extends AppCompatActivity {
             data2b += Integer.toString(temp2b);
 
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
 
 
         if (data1b != null && data2b != null) {
             phn2.setText(data1b + data2b);
         } else {
-            Toast.makeText(MainActivity.this, "PLEASE STORE A EMERGENCY NUMBER IN 2nd FIELD", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "PLEASE STORE A EMERGENCY NUMBER IN 2nd FIELD", Toast.LENGTH_SHORT).show();
         }
 
         //for 3rd number
@@ -159,18 +154,18 @@ public class MainActivity extends AppCompatActivity {
             data2c += Integer.toString(temp2c);
 
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "PLEASE STORE A EMERGENCY NUMBER IN 3rd FIELD", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "PLEASE STORE A EMERGENCY NUMBER IN 3rd FIELD", Toast.LENGTH_SHORT).show();
         }
 
 
         if (data1c != null && data2c != null) {
             phn3.setText(data1c + data2c);
         } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
-        */
+    }
 
-
+        /*
         //setting pending intent for message service
         sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
         deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
@@ -179,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                loc.setText("\n " + location.getLongitude() + "   " + location.getLatitude());
                 //   Toast.makeText(MainActivity.this, "location change", Toast.LENGTH_SHORT).show();
                 lng = String.valueOf(location.getLongitude());
                 lat = String.valueOf(location.getLatitude());
@@ -221,9 +217,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    */
+        //database
+        //inserting 1st emergency contact in database
 
-    //database
-    //inserting 1st emergency contact in database
     public void insert1(View v) {
 
         // phn1 = (EditText) findViewById(R.id.phn1);
@@ -234,12 +231,12 @@ public class MainActivity extends AppCompatActivity {
             String number2 = String.valueOf(phn1.getText()).substring(5);
             if (number1 != null && number2 != null) {
                 db.execSQL("INSERT INTO NUMBER1(PHONE1, PHONE2) VALUES(" + number1 + "," + number2 + ");");
-                Toast.makeText(MainActivity.this, "1st NUMBER STORED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "1st NUMBER STORED", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -258,12 +255,12 @@ public class MainActivity extends AppCompatActivity {
             String number2 = String.valueOf(phn2.getText()).substring(5);
             if (number1 != null && number2 != null) {
                 db.execSQL("INSERT INTO NUMBER2(PHONE1, PHONE2) VALUES(" + number1 + "," + number2 + ");");
-                Toast.makeText(MainActivity.this, "2nd NUMBER STORED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "2nd NUMBER STORED", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -278,16 +275,16 @@ public class MainActivity extends AppCompatActivity {
             db.execSQL("DELETE FROM NUMBER3;");
             String number1 = String.valueOf(phn3.getText()).substring(0, 5);
             String number2 = String.valueOf(phn3.getText()).substring(5);
-            Toast.makeText(MainActivity.this, number1 + "   " + number2, Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, number1 + "   " + number2, Toast.LENGTH_SHORT).show();
 
             if (number1 != null && number2 != null) {
                 db.execSQL("INSERT INTO NUMBER3(PHONE1, PHONE2) VALUES(" + number1 + "," + number2 + ");");
-                Toast.makeText(MainActivity.this, "3rd NUMBER STORED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "3rd NUMBER STORED", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -314,14 +311,14 @@ public class MainActivity extends AppCompatActivity {
                 data2 += Integer.toString(temp2);
             }
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
 
 
         if (data1 != null && data2 != null) {
             phn1.setText(data1 + data2);
         } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -346,14 +343,14 @@ public class MainActivity extends AppCompatActivity {
                 data2 += Integer.toString(temp2);
             }
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
 
 
         if (data1 != null && data2 != null) {
             phn2.setText(data1 + data2);
         } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -379,14 +376,14 @@ public class MainActivity extends AppCompatActivity {
                 data2 += Integer.toString(temp2);
             }
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
 
 
         if (data1 != null && data2 != null) {
             phn3.setText(data1 + data2);
         } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main2Activity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -395,25 +392,27 @@ public class MainActivity extends AppCompatActivity {
     public void delete1(View v) {
         db.execSQL("DELETE FROM NUMBER1;");
         phn1.setText("");
-        Toast.makeText(MainActivity.this, "1st NUMBER DELETED", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Main2Activity.this, "1st NUMBER DELETED", Toast.LENGTH_SHORT).show();
     }
 
     //for deleting records.
     public void delete2(View v) {
         db.execSQL("DELETE FROM NUMBER2;");
         phn2.setText("");
-        Toast.makeText(MainActivity.this, "2nd NUMBER DELETED", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Main2Activity.this, "2nd NUMBER DELETED", Toast.LENGTH_SHORT).show();
     }
 
     //for deleting records.
     public void delete3(View v) {
         db.execSQL("DELETE FROM NUMBER3;");
         phn3.setText("");
-        Toast.makeText(MainActivity.this, "3rd NUMBER DELETED", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Main2Activity.this, "3rd NUMBER DELETED", Toast.LENGTH_SHORT).show();
     }
+}
 
 
     //displays various message related to message status.
+    /*
     @Override
     protected void onResume() {
         super.onResume();
@@ -425,22 +424,22 @@ public class MainActivity extends AppCompatActivity {
                 switch (getResultCode()) {
 
                     case Activity.RESULT_OK:
-                        Toast.makeText(MainActivity.this, "SMS SENT!!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "SMS SENT!!!", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(MainActivity.this, "GENERIC FAILURE", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "GENERIC FAILURE", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(MainActivity.this, "NO SERVICE", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "NO SERVICE", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(MainActivity.this, "NULL PDU", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "NULL PDU", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(MainActivity.this, "RADIO OFF", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "RADIO OFF", Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(MainActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "ERROR", Toast.LENGTH_SHORT).show();
                         break;
 
                 }
@@ -454,10 +453,10 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (getResultCode()) {
                     case Activity.RESULT_OK:
-                        Toast.makeText(MainActivity.this, "SMS DELIVERED!!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "SMS DELIVERED!!!", Toast.LENGTH_SHORT).show();
                         break;
                     case Activity.RESULT_CANCELED:
-                        Toast.makeText(MainActivity.this, "SMS NOT DELIVERED ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "SMS NOT DELIVERED ", Toast.LENGTH_SHORT).show();
                         break;
                 }
 
@@ -496,10 +495,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 locationManager.requestLocationUpdates("gps", 100, 0, listener);
-                Toast.makeText(MainActivity.this, "Your message is being sent", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "Waiting", Toast.LENGTH_SHORT).show();
                 ti = 0;
 
 
+                loc.append("\n " + lng + "   " + lat);
 
 
             }
@@ -589,9 +589,9 @@ public class MainActivity extends AppCompatActivity {
             try {
 
 
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+                if (ContextCompat.checkSelfPermission(Main2Activity.this, Manifest.permission.SEND_SMS)
                         != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS},
+                    ActivityCompat.requestPermissions(Main2Activity.this, new String[]{Manifest.permission.SEND_SMS},
                             MY_PERMISSIONS_REQUEST_SEND_SMS);
                 } else {
                     SmsManager sms = SmsManager.getDefault();
@@ -602,13 +602,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
-                Toast.makeText(MainActivity.this, "UNABLE TO SEND MESSAGE TO " + tel1, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "UNABLE TO SEND MESSAGE TO " + tel1, Toast.LENGTH_SHORT).show();
             }
             try {
 
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+                if (ContextCompat.checkSelfPermission(Main2Activity.this, Manifest.permission.SEND_SMS)
                         != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS},
+                    ActivityCompat.requestPermissions(Main2Activity.this, new String[]{Manifest.permission.SEND_SMS},
                             MY_PERMISSIONS_REQUEST_SEND_SMS);
                 } else {
                     SmsManager sms = SmsManager.getDefault();
@@ -619,15 +619,15 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             } catch (Exception e) {
-                Toast.makeText(MainActivity.this, "UNABLE TO SEND MESSAGE TO " + tel2, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "UNABLE TO SEND MESSAGE TO " + tel2, Toast.LENGTH_SHORT).show();
             }
 
             try {
 
 
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+                if (ContextCompat.checkSelfPermission(Main2Activity.this, Manifest.permission.SEND_SMS)
                         != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS},
+                    ActivityCompat.requestPermissions(Main2Activity.this, new String[]{Manifest.permission.SEND_SMS},
                             MY_PERMISSIONS_REQUEST_SEND_SMS);
                 } else {
                     SmsManager sms = SmsManager.getDefault();
@@ -638,56 +638,15 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             } catch (Exception e) {
-                Toast.makeText(MainActivity.this, "UNABLE TO SEND MESSAGE TO " + tel3, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main2Activity.this, "UNABLE TO SEND MESSAGE TO " + tel3, Toast.LENGTH_SHORT).show();
             }
 
             //  Toast.makeText(MainActivity.this, "exiting function", Toast.LENGTH_SHORT).show();
         } else {
             //     Toast.makeText(MainActivity.this, "no need to run this", Toast.LENGTH_SHORT).show();
         }
-
-    }
-
-    public void police(View v) {
+*/
 
 
 
-        if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
-                    MY_PERMISSIONS_REQUEST_CALL_PHONE);
-return;}
-        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:100"));
-startActivity(callIntent);}
-}
 
-    public void ambulance(View v){
-
-
-
-        if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
-                    MY_PERMISSIONS_REQUEST_CALL_PHONE);
-            return;}
-        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:102"));
-            startActivity(callIntent);}
-    }
-
-    public void fire(View v){
-
-
-
-        if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
-                    MY_PERMISSIONS_REQUEST_CALL_PHONE);
-            return;}
-        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:101"));
-            startActivity(callIntent);}
-
-    }
-}
