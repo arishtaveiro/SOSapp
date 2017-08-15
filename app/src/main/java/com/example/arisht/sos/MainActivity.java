@@ -84,91 +84,6 @@ public class MainActivity extends AppCompatActivity {
         db.execSQL("CREATE TABLE IF NOT EXISTS NUMBER3 (PHONE1 VARCHAR(10), PHONE2 VARCHAR(10));");
 
 
-        //populating edittext with stored number
-        //for 1st number
-        /*
-        Cursor c1;
-        int temp1a, temp2a;
-        String data1a, data2a;
-        data1a = "";
-        data2a = "";
-        c1 = db.rawQuery("SELECT * FROM NUMBER1", null);
-        c1.moveToFirst();
-
-
-        try {
-
-            temp1a = c1.getInt(0);
-            data1a += Integer.toString(temp1a);
-            temp2a = c1.getInt(1);
-            data2a += Integer.toString(temp2a);
-
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "PLEASE STORE A EMERGENCY NUMBER IN 1st FIELD", Toast.LENGTH_SHORT).show();
-        }
-
-
-        if (data1a != null && data2a != null) {
-            phn1.setText(data1a + data2a);
-        } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-
-        //for 2nd number
-        Cursor c2;
-        int temp1b, temp2b;
-        String data1b, data2b;
-        data1b = "";
-        data2b = "";
-        c2 = db.rawQuery("SELECT * FROM NUMBER2", null);
-        c2.moveToFirst();
-
-        try {
-
-            temp1b = c2.getInt(0);
-            data1b += Integer.toString(temp1b);
-            temp2b = c2.getInt(1);
-            data2b += Integer.toString(temp2b);
-
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-
-
-        if (data1b != null && data2b != null) {
-            phn2.setText(data1b + data2b);
-        } else {
-            Toast.makeText(MainActivity.this, "PLEASE STORE A EMERGENCY NUMBER IN 2nd FIELD", Toast.LENGTH_SHORT).show();
-        }
-
-        //for 3rd number
-        Cursor c3;
-        int temp1c, temp2c;
-        String data1c, data2c;
-        data1c = "";
-        data2c = "";
-        c3 = db.rawQuery("SELECT * FROM NUMBER3", null);
-        c3.moveToFirst();
-
-
-        try {
-
-            temp1c = c3.getInt(0);
-            data1c += Integer.toString(temp1c);
-            temp2c = c3.getInt(1);
-            data2c += Integer.toString(temp2c);
-
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "PLEASE STORE A EMERGENCY NUMBER IN 3rd FIELD", Toast.LENGTH_SHORT).show();
-        }
-
-
-        if (data1c != null && data2c != null) {
-            phn3.setText(data1c + data2c);
-        } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-        */
 
 
         //setting pending intent for message service
@@ -236,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 db.execSQL("INSERT INTO NUMBER1(PHONE1, PHONE2) VALUES(" + number1 + "," + number2 + ");");
                 Toast.makeText(MainActivity.this, "1st NUMBER STORED", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD 1", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
@@ -260,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 db.execSQL("INSERT INTO NUMBER2(PHONE1, PHONE2) VALUES(" + number1 + "," + number2 + ");");
                 Toast.makeText(MainActivity.this, "2nd NUMBER STORED", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD 2", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
@@ -284,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 db.execSQL("INSERT INTO NUMBER3(PHONE1, PHONE2) VALUES(" + number1 + "," + number2 + ");");
                 Toast.makeText(MainActivity.this, "3rd NUMBER STORED", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "NOTHING IN NUMBER FIELD 3", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, "PLEASE ENTER A VALID NUMBER", Toast.LENGTH_SHORT).show();
@@ -293,103 +208,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //for displaying number stored in table.
-    public void display1(View v) {
-
-        // disp = (TextView) findViewById(R.id.disp);
-        Cursor c;
-        int temp1, temp2;
-        String data1, data2;
-        data1 = "";
-        data2 = "";
-        c = db.rawQuery("SELECT * FROM NUMBER1", null);
-        c.moveToFirst();
-
-
-        try {
-            for (int i = 0; c.moveToPosition(i); i++) {
-                temp1 = c.getInt(0);
-                data1 += Integer.toString(temp1);
-                temp2 = c.getInt(1);
-                data2 += Integer.toString(temp2);
-            }
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-
-
-        if (data1 != null && data2 != null) {
-            phn1.setText(data1 + data2);
-        } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    //for displaying number stored in table.
-    public void display2(View v) {
-
-        // disp = (TextView) findViewById(R.id.disp);
-        Cursor c;
-        int temp1, temp2;
-        String data1, data2;
-        data1 = "";
-        data2 = "";
-        c = db.rawQuery("SELECT * FROM NUMBER2", null);
-        c.moveToFirst();
-
-        try {
-            for (int i = 0; c.moveToPosition(i); i++) {
-                temp1 = c.getInt(0);
-                data1 += Integer.toString(temp1);
-                temp2 = c.getInt(1);
-                data2 += Integer.toString(temp2);
-            }
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-
-
-        if (data1 != null && data2 != null) {
-            phn2.setText(data1 + data2);
-        } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    //for displaying number stored in table.
-    public void display3(View v) {
-
-        //   disp = (TextView) findViewById(R.id.disp);
-        Cursor c;
-        int temp1, temp2;
-        String data1, data2;
-        data1 = "";
-        data2 = "";
-        c = db.rawQuery("SELECT * FROM NUMBER3", null);
-        c.moveToFirst();
-
-
-        try {
-            for (int i = 0; c.moveToPosition(i); i++) {
-                temp1 = c.getInt(0);
-                data1 += Integer.toString(temp1);
-                temp2 = c.getInt(1);
-                data2 += Integer.toString(temp2);
-            }
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-
-
-        if (data1 != null && data2 != null) {
-            phn3.setText(data1 + data2);
-        } else {
-            Toast.makeText(MainActivity.this, "NOTHING IN DATABASE", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
     //for deleting records.
     public void delete1(View v) {
@@ -511,9 +329,7 @@ public class MainActivity extends AppCompatActivity {
     public void send(String lat, String lng) {
 
         if (ti == 1) {
-            //       Toast.makeText(MainActivity.this, "inside function", Toast.LENGTH_SHORT).show();
-
-
+            // Toast.makeText(MainActivity.this, "inside function", Toast.LENGTH_SHORT).show();
             //database
             Cursor c1;
             int temp1a, temp2a;
@@ -597,12 +413,12 @@ public class MainActivity extends AppCompatActivity {
                     SmsManager sms = SmsManager.getDefault();
                     sms.sendTextMessage(tel1, null, message, sentPI, deliveredPI);
 
-                    //          Toast.makeText(MainActivity.this, "sending ." + lat, Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(MainActivity.this, "sending ." + lat, Toast.LENGTH_SHORT).show();
 
                 }
 
             } catch (Exception e) {
-                Toast.makeText(MainActivity.this, "UNABLE TO SEND MESSAGE TO " + tel1, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "UNABLE TO SEND MESSAGE TO "+tel1, Toast.LENGTH_SHORT).show();
             }
             try {
 
@@ -656,10 +472,12 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
                     MY_PERMISSIONS_REQUEST_CALL_PHONE);
-return;}
-        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
+            return;
+        }
+        else{
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:100"));
-startActivity(callIntent);}
+            startActivity(callIntent);}
 }
 
     public void ambulance(View v){
@@ -670,8 +488,10 @@ startActivity(callIntent);}
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
                     MY_PERMISSIONS_REQUEST_CALL_PHONE);
-            return;}
-        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
+            return;
+        }
+        else{
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:102"));
             startActivity(callIntent);}
     }
@@ -684,8 +504,10 @@ startActivity(callIntent);}
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE},
                     MY_PERMISSIONS_REQUEST_CALL_PHONE);
-            return;}
-        else{     Intent callIntent = new Intent(Intent.ACTION_CALL);
+            return;
+        }
+        else{
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:101"));
             startActivity(callIntent);}
 
