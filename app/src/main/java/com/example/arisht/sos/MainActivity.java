@@ -10,6 +10,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -56,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
     PendingIntent sentPI, deliveredPI;
     BroadcastReceiver smsSentReceiver, smsDeliveredReceiver;
 
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         send = (ImageView) findViewById(R.id.send);
-        contacts = (ImageView) findViewById(R.id.cont) ;
+        contacts = (ImageView) findViewById(R.id.cont);
 
         contacts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
         db.execSQL("CREATE TABLE IF NOT EXISTS NUMBER1 (PHONE1 VARCHAR(10), PHONE2 VARCHAR(10));");
         db.execSQL("CREATE TABLE IF NOT EXISTS NUMBER2 (PHONE1 VARCHAR(10), PHONE2 VARCHAR(10));");
         db.execSQL("CREATE TABLE IF NOT EXISTS NUMBER3 (PHONE1 VARCHAR(10), PHONE2 VARCHAR(10));");
-
-
 
 
         //setting pending intent for message service
@@ -122,8 +126,39 @@ public class MainActivity extends AppCompatActivity {
 
         configure_button();
 
-    }
 
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+                /*
+				 * The following method, "handleShakeEvent(count):" is a stub //
+				 * method you would use to setup whatever you want done once the
+				 * device has been shook.
+				 */
+                //handleShakeEvent(count);
+                // first check for permissions
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}
+                                , 10);
+                    }
+                    return;
+                }
+                locationManager.requestLocationUpdates("gps", 100, 0, listener);
+                Toast.makeText(MainActivity.this, "Your message is being sent", Toast.LENGTH_SHORT).show();
+                ti = 0;
+                Toast.makeText(MainActivity.this, "SHAKE", Toast.LENGTH_SHORT).show();
+               // ti = 0;
+            }
+        });
+
+
+    }
     //gps
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -236,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
         smsSentReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -291,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
+        mSensorManager.unregisterListener(mShakeDetector);
         unregisterReceiver(smsSentReceiver);
         unregisterReceiver(smsDeliveredReceiver);
     }
@@ -328,6 +365,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void send(String lat, String lng) {
 
+       // Toast.makeText(MainActivity.this, "inside function", Toast.LENGTH_SHORT).show();
         if (ti == 1) {
             // Toast.makeText(MainActivity.this, "inside function", Toast.LENGTH_SHORT).show();
             //database
