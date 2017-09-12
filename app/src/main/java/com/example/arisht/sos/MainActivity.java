@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 locationManager.requestLocationUpdates("gps", 100, 0, listener);
                 Toast.makeText(MainActivity.this, "Your message is being sent", Toast.LENGTH_SHORT).show();
                 ti = 0;
-                Toast.makeText(MainActivity.this, "SHAKE", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "SHAKE", Toast.LENGTH_SHORT).show();
                // ti = 0;
             }
         });
